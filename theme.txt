@@ -1,0 +1,63 @@
+title-text: ""
+desktop-image: "background.png"
+desktop-color: "#000000"
+terminal-font: "ONE PIECE Regular 16"
+terminal-box: "terminal_box_*.png"
+terminal-left: "6%"
+terminal-top: "27%"
+terminal-width: "42%"
+terminal-height: "61%"
+terminal-border: "0"
+
+
++ boot_menu {
+  left = 7%
+  top = 41%
+  width = 40%
+  height = 65%
+  item_font = "ONE PIECE Regular 23"
+  item_color = "#cccccc"
+  selected_item_color = "#ffffff"
+  icon_width = 64
+  icon_height = 64
+  item_icon_space = 20
+  item_height = 70
+  item_padding = 3
+  item_spacing = 13
+  selected_item_pixmap_style = "select_*.png"
+}
+
+
++ label {
+  left = 7%
+  top = 78%
+  align = "left"
+  id = "__timeout__"
+  text = "Setting sail in %d seconds"
+  color = "#FFD700"
+  font = "ONE PIECE Regular 20"
+}
+
+
++ label {
+    id = "__timeout__"
+    align = "right"
+    left = 50%
+    top = 93%
+    width = 50%-10
+    text = "Setting sail in %d seconds"
+    font = "ONE PIECE Regular 24"
+    color = "#FFD700"
+}
+
+
++ label {
+    id = "__timeout__"
+    align = "right"
+    left = 50%+2
+    top = 93%+2
+    width = 50%-10
+    text = "Setting sail in %d seconds"
+    font = "ONE PIECE Regular 24"
+    color = "#8B4513"
+}
