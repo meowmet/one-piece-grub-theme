@@ -6,13 +6,7 @@ A **One Piece-themed GRUB bootloader menu** featuring custom wallpapers, fonts, 
 
 ---
 
-## Preview
 
-![Preview]([preview.png](https://github.com/meowmet/one-piece-grub-theme/blob/main/background.png))
-
-One piece themed wallpapers : `luffy.png`, `zoro.jpg`, `goingmerry.jpg`, `wanted.jpg`, `sea.jpg`, and more.
-
----
 
 
 ## Installation
@@ -90,4 +84,3 @@ MIT License – feel free to use, modify, and share.
 
 ---
 
-This README provides clear installation steps, customization options, and credits, ensuring users can easily set up and personalize your One Piece GRUB theme.
