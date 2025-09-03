@@ -1,5 +1,5 @@
 title-text: ""
-desktop-image: "background.jpg"
+desktop-image: "background.png"
 desktop-color: "#000000"
 terminal-font: "ONE PIECE Regular 16"
 terminal-box: "terminal_box_*.png"
