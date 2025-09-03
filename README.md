@@ -1,86 +1,67 @@
----
 
-# one-piece-grub-theme 🏴‍☠️
-
-A **One Piece-themed GRUB bootloader menu** featuring custom wallpapers, fonts, and icons. Transform your Linux boot screen into a Straw Hat adventure!
-
----
+# One Piece GRUB Theme
 
 
+![Preview](https://raw.githubusercontent.com/meowmet/one-piece-grub-theme/main/preview.gif)
 
-
-## Installation
+A custom **One Piece themed GRUB bootloader** to spice up your system!
 
 
 
-1. **Copy theme files** to your GRUB themes folder:
+## 📦 Installation
+
+1. **Clone this repo**
+   ```bash
+   git clone https://github.com/meowmet/one-piece-grub-theme.git
+   cd one-piece-grub-theme
+
+
+2. **Copy theme folder** to GRUB themes directory:
 
    ```bash
-   sudo mkdir -p /boot/grub/themes/one-piece-grub-theme
-   sudo cp -r /path/to/your/theme/* /boot/grub/themes/one-piece-grub-theme/
+   sudo mkdir -p /boot/grub/themes
+   sudo cp -r one-piece /boot/grub/themes/
    ```
 
-2. **Edit GRUB default configuration**:
+3. **Edit GRUB config**
+   Open `/etc/default/grub` with your favorite editor and add/change this line:
 
    ```bash
-   sudo nano /etc/default/grub
+   GRUB_THEME="/boot/grub/themes/one-piece/theme.txt"
    ```
 
-   * Add or edit the line to set the theme:
-
-     ```text
-     GRUB_THEME="/boot/grub/themes/one-piece-grub-theme/theme.txt"
-     ```
-
-   * Optional: adjust timeout and default OS:
-
-     ```text
-     GRUB_TIMEOUT=10
-     GRUB_DEFAULT=0
-     ```
-
-3. **Update GRUB** to apply changes:
+4. **Update GRUB**
+   On Debian/Ubuntu/Kali:
 
    ```bash
-   sudo update-grub      # Debian/Ubuntu
-   # or
-   sudo grub-mkconfig -o /boot/grub/grub.cfg   # Arch/others
+   sudo update-grub
    ```
 
-4. **Reboot** and enjoy your One Piece GRUB menu!
+   On Fedora/Arch:
+
+   ```bash
+   sudo grub-mkconfig -o /boot/grub/grub.cfg
+   ```
+
+5. **Reboot and enjoy** 
 
 ---
 
-## Customization
+## 🛠️ Extra Notes
 
-You can tweak `theme.txt` to adjust:
-
-* Terminal box position, size, and font (`terminal-box`, `terminal-font`)
-* Boot menu item colors and fonts (`boot_menu`)
-* Timeout labels (`label`)
-* Background image (`desktop-image`)
-
-Ensure your images and fonts are correctly placed in the theme folder.
+* Works with both **BIOS** and **UEFI** systems.
+* If you don’t see the theme, double-check the theme path in `/etc/default/grub`.
+* Background, fonts, and icons can be customized inside the theme folder.
 
 ---
 
-## Included Files
+## ✨ Credits
 
-```
-background.png
-onepiece.pf2
-theme.txt
-terminal_box_*.png
-select_*.png
-icons/*.png
-backgrounds/*.jpg
-```
+Made by **Meowmet** 
+
+> *If you have any recommendations, please mention them.* 🙌
 
 
+📝 License
 
-## License
-
-MIT License – feel free to use, modify, and share.
-
----
-
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
