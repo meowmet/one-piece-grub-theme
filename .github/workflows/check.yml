@@ -1,0 +1,39 @@
+name: Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ShellCheck
+        run: shellcheck setup tools/*.sh tests/*.sh
+      - name: Setup tests (fake Fedora, Kali, Ubuntu)
+        run: tests/test-setup.sh
+      - name: Every theme builds
+        run: |
+          for t in themes/*/; do
+            ./setup build "$(basename "$t")" "/tmp/build/$(basename "$t")"
+          done
+
+  grub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GRUB and QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y grub-pc-bin grub-common xorriso mtools qemu-system-x86 imagemagick
+      - name: Boot every theme in real GRUB
+        run: |
+          mkdir -p shots
+          for t in themes/*/; do
+            tools/grub-screenshot.sh "$(basename "$t")" "shots/$(basename "$t").jpg"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grub-screenshots
+          path: shots/

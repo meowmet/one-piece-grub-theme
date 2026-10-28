@@ -20,7 +20,7 @@ terminal-border: "0"
     align = "center"
     text = "~ Grand Line ~"
     font = "ONE PIECE Regular 32"
-    color = "#5fa8e8"
+    color = "#ffd23f"
 }
 
 + boot_menu {
@@ -35,20 +35,22 @@ terminal-border: "0"
   icon_width = 48
   icon_height = 48
   item_icon_space = 18
-  item_height = 58
-  item_padding = 6
-  item_spacing = 8
+  item_height = 56
+  item_padding = 4
+  item_spacing = 10
   selected_item_pixmap_style = "select_*.png"
   scrollbar = false
 }
 
-+ label {
++ progress_bar {
     id = "__timeout__"
-    align = "right"
-    left = 50%
-    top = 93%
-    width = 50%-20
-    text = "Entering the Grand Line in %d seconds"
+    left = 4%
+    top = 80%
+    width = 34%
+    height = 40
     font = "ONE PIECE Regular 24"
-    color = "#ffd23f"
+    text_color = "#d6eaff"
+    text = "Entering the Grand Line in %d seconds"
+    bar_style = "bar_*.png"
+    highlight_style = "hl_*.png"
 }

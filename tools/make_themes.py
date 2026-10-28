@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Generate the character themes in themes/<name>/.
 
-Each theme gets its own theme.txt, a translucent menu panel (menu_*.png) and a
-selection bar (select_*.png) in its own colours. The background image comes
-from backgrounds/<background>.png and is copied by ./setup at install time.
+Each theme gets its own theme.txt, a translucent menu panel (menu_*.png), a
+selection bar (select_*.png) and a countdown bar (bar_*.png, hl_*.png) in its
+own colours. The background image comes from backgrounds/<background>.png and
+is copied by ./setup at install time.
 
     python3 tools/make_themes.py
 """
@@ -15,50 +16,59 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 # name: settings
+#   panel/bar: (colour, alpha)   dark: add a halo to dark icons
 THEMES = {
+    "luffy": dict(
+        background="luffy",
+        title="Monkey D. Luffy",
+        timeout="Setting sail in %d seconds",
+        item="#ffe9b0", selected="#ffffff", title_color="#ffd23f",
+        panel=("#2b1408", 180), border="#f5cd07", bar=("#ad2000", 235),
+        dark=True,
+    ),
     "zoro": dict(
         background="zoro",
         title="Santoryu",
         timeout="Zoro got lost again... arriving in %d seconds",
-        item="#c9f7d4", selected="#ffffff", timeout_color="#ffffff",
-        panel=("#06140c", 185), border="#3ccf7a", bar=("#1f8a4c", 220),
+        item="#c9f7d4", selected="#ffffff", title_color="#b8ffcc",
+        panel=("#06140c", 190), border="#3ccf7a", bar=("#1f8a4c", 230),
         menu_left="2%", menu_width="30%", dark=True,
     ),
     "goingmerry": dict(
         background="goingmerry",
         title="Going Merry",
         timeout="The Merry sets sail in %d seconds",
-        item="#fff4e0", selected="#3a1606", timeout_color="#fff4e0", title_color="#2a1238",
-        panel=("#2a1238", 170), border="#ffcf5a", bar=("#ffcf5a", 230),
+        item="#fff4e0", selected="#3a1606", title_color="#2a1238",
+        panel=("#2a1238", 175), border="#ffcf5a", bar=("#ffcf5a", 235),
         dark=True,
     ),
     "sea": dict(
         background="sea",
         title="Grand Line",
         timeout="Entering the Grand Line in %d seconds",
-        item="#d6eaff", selected="#0b1d33", timeout_color="#ffd23f",
-        panel=("#030b16", 170), border="#5fa8e8", bar=("#ffd23f", 235),
+        item="#d6eaff", selected="#0b1d33", title_color="#ffd23f",
+        panel=("#030b16", 175), border="#5fa8e8", bar=("#ffd23f", 235),
         dark=True,
     ),
     "wanted": dict(
         background="wanted",
         title="Wanted",
         timeout="Bounty collected in %d seconds",
-        item="#3d230b", selected="#fff4dc",
+        item="#3d230b", selected="#fff4dc", title_color="#8e1b10",
         panel=("#f3e3bc", 235), border="#5b3412", bar=("#8e1b10", 235),
         menu_left="74%", menu_width="24%",
-        timeout_left="74%", timeout_width="24%", timeout_align="center",
-        timeout_top="81%", title_color="#8e1b10", timeout_color="#8e1b10",
     ),
     "straw-hat": dict(
         background="monkey_d_luffy",
         title="Straw Hat",
         timeout="King of the Pirates in %d seconds",
-        item="#ffeec2", selected="#2a1a00", timeout_color="#f5cd07",
-        panel=("#08130a", 175), border="#f5cd07", bar=("#f5cd07", 235),
+        item="#ffeec2", selected="#2a1a00", title_color="#f5cd07",
+        panel=("#08130a", 180), border="#f5cd07", bar=("#f5cd07", 235),
         dark=True,
     ),
 }
+
+DARK_ICONS = ("windows", "windows11", "linux", "gnu-linux", "lfs", "macosx")
 
 TEMPLATE = """\
 # One Piece GRUB theme - {name}
@@ -98,22 +108,24 @@ terminal-border: "0"
   icon_width = 48
   icon_height = 48
   item_icon_space = 18
-  item_height = 58
-  item_padding = 6
-  item_spacing = 8
+  item_height = 56
+  item_padding = 4
+  item_spacing = 10
   selected_item_pixmap_style = "select_*.png"
   scrollbar = false
 }}
 
-+ label {{
++ progress_bar {{
     id = "__timeout__"
-    align = "{timeout_align}"
-    left = {timeout_left}
-    top = {timeout_top}
-    width = {timeout_width}
-    text = "{timeout}"
+    left = {menu_left}
+    top = 80%
+    width = {menu_width}
+    height = 40
     font = "ONE PIECE Regular 24"
-    color = "{timeout_color}"
+    text_color = "{item}"
+    text = "{timeout}"
+    bar_style = "bar_*.png"
+    highlight_style = "hl_*.png"
 }}
 """
 
@@ -149,27 +161,22 @@ def glow_icon(src, dst):
 
 
 def main():
-    luffy = os.path.join(ROOT, "themes", "luffy")
-    os.makedirs(luffy, exist_ok=True)
-    shutil.copy(os.path.join(ROOT, "theme.txt"), os.path.join(luffy, "theme.txt"))
-    with open(os.path.join(luffy, "background"), "w") as f:
-        f.write("luffy\n")
-
     for name, t in THEMES.items():
         out = os.path.join(ROOT, "themes", name)
-        os.makedirs(out, exist_ok=True)
-        t = dict(dict(menu_left="4%", menu_width="34%", title_color=t["border"],
-                      timeout_left="50%", timeout_width="50%-20", timeout_align="right",
-                      timeout_top="93%"), **t)
+        shutil.rmtree(out, ignore_errors=True)
+        os.makedirs(out)
+        t = dict(dict(menu_left="4%", menu_width="34%"), **t)
         with open(os.path.join(out, "theme.txt"), "w") as f:
             f.write(TEMPLATE.format(name=name, **t))
         with open(os.path.join(out, "background"), "w") as f:
             f.write(t["background"] + "\n")
         nine_slice("menu", out, rgba(*t["panel"]), rgba(t["border"], 255))
-        nine_slice("select", out, rgba(*t["bar"]), None, size=36, corner=12, radius=12)
+        nine_slice("select", out, rgba(*t["bar"]), None, size=18, corner=6, radius=6)
+        nine_slice("bar", out, rgba(*t["panel"]), rgba(t["border"], 255), size=24, corner=8, radius=8, width=2)
+        nine_slice("hl", out, rgba(t["bar"][0], 150), None, size=24, corner=8, radius=8)
         if t.get("dark"):
-            os.makedirs(os.path.join(out, "icons"), exist_ok=True)
-            for icon in ("windows", "windows11", "linux", "gnu-linux", "ubuntu"):
+            os.makedirs(os.path.join(out, "icons"))
+            for icon in DARK_ICONS:
                 glow_icon(os.path.join(ROOT, "icons", icon + ".png"), os.path.join(out, "icons", icon + ".png"))
         print("themes/%s" % name)
 

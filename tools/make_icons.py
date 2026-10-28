@@ -324,6 +324,123 @@ def os_icon():
     return im
 
 
+def ubuntu():
+    """Thousand Sunny's lion figurehead, Ubuntu orange."""
+    im, d = canvas()
+    c = 256
+    # sunflower mane
+    for k in range(16):
+        a = k * 22.5
+        x, y = pt(c, c, 165, a)
+        d.ellipse((x - 62, y - 62, x + 62, y + 62), fill="#a63a00")
+        d.ellipse((x - 54, y - 54, x + 54, y + 54), fill="#e95420" if k % 2 else "#f7a21b")
+    d.ellipse((c - 150, c - 150, c + 150, c + 150), fill="#7a3a00")
+    d.ellipse((c - 140, c - 140, c + 140, c + 140), fill="#ffd36b")
+    # eyes, nose, smile
+    for ex in (c - 55, c + 55):
+        d.ellipse((ex - 24, c - 70, ex + 24, c - 22), fill=INK)
+        d.ellipse((ex - 10, c - 62, ex + 4, c - 48), fill="#ffffff")
+    d.polygon([(c - 30, c - 5), (c + 30, c - 5), (c, c + 25)], fill="#a63a00", outline=INK)
+    d.arc((c - 90, c - 30, c + 90, c + 100), 20, 160, fill=INK, width=12)
+    for x in (c - 40, c, c + 40):
+        d.line([(x, c + 70), (x, c + 92)], fill=INK, width=8)
+    return im
+
+
+def memtest():
+    """Poneglyph: the stone that remembers everything."""
+    im, d = canvas()
+    d.polygon([(70, 60), (442, 40), (470, 470), (42, 452)], fill="#1d2b2b")
+    d.polygon([(84, 74), (428, 56), (452, 454), (58, 438)], fill="#3d5656")
+    d.line([(84, 74), (428, 56)], fill="#6f8f8f", width=8)
+    rows = [(120, 9), (180, 8), (240, 9), (300, 7), (360, 9)]
+    for y, n in rows:
+        for i in range(n):
+            x = 110 + i * 36
+            k = (i * 5 + y // 60 * 3 + i * i) % 4
+            col = "#a8f0e0"
+            if k == 0:
+                d.rectangle((x, y, x + 20, y + 30), outline=col, width=5)
+            elif k == 1:
+                d.ellipse((x, y, x + 24, y + 30), outline=col, width=5)
+            elif k == 2:
+                d.line([(x, y), (x + 22, y + 30)], fill=col, width=5)
+                d.line([(x + 22, y), (x, y + 30)], fill=col, width=5)
+            else:
+                d.polygon([(x + 11, y), (x + 24, y + 30), (x, y + 30)], outline=col, width=5)
+    return im
+
+
+def kubuntu():
+    """Franky's star sunglasses, Kubuntu blue."""
+    im, d = canvas()
+    for cx in (150, 362):
+        pts = []
+        for k in range(10):
+            r = 120 if k % 2 == 0 else 52
+            pts.append(pt(cx, 270, r, k * 36 - 90))
+        d.polygon(pts, fill="#0079c1", outline=INK, width=10)
+        d.polygon([pt(cx, 250, 40, -90), pt(cx, 250, 70, -60), pt(cx, 250, 20, -10)], fill="#7fc6f0")
+    d.arc((210, 230, 302, 300), 200, 340, fill=INK, width=16)
+    d.line([(40, 250), (10, 230)], fill=INK, width=14)
+    d.line([(472, 250), (502, 230)], fill=INK, width=14)
+    return im
+
+
+def nobara():
+    """Usopp's Kabuto slingshot, Nobara colours."""
+    im, d = canvas()
+    wood, dark = "#a0612b", "#4a2c12"
+    d.line([(256, 470), (256, 300)], fill=dark, width=60)
+    d.line([(256, 470), (256, 300)], fill=wood, width=44)
+    d.line([(256, 310), (120, 90)], fill=dark, width=54)
+    d.line([(256, 310), (392, 90)], fill=dark, width=54)
+    d.line([(256, 310), (120, 90)], fill=wood, width=38)
+    d.line([(256, 310), (392, 90)], fill=wood, width=38)
+    for x in (120, 392):
+        d.ellipse((x - 34, 56, x + 34, 124), fill="#e0274b", outline=INK, width=6)
+    d.line([(120, 90), (256, 230), (392, 90)], fill="#2b2b2b", width=10, joint="curve")
+    d.ellipse((228, 200, 284, 256), fill="#2f8ee0", outline=INK, width=6)
+    for y in (380, 420):
+        d.line([(228, y), (284, y)], fill=dark, width=8)
+    return im
+
+
+def cachyos():
+    """Nami's Clima-Tact with a thundercloud, CachyOS teal."""
+    im, d = canvas()
+    d.ellipse((90, 40, 250, 170), fill="#3b4652")
+    d.ellipse((180, 20, 380, 180), fill="#4b5866")
+    d.ellipse((300, 60, 450, 180), fill="#3b4652")
+    d.polygon([(290, 160), (240, 260), (285, 260), (245, 350), (350, 230), (300, 230), (335, 160)],
+              fill="#ffd23f", outline=INK)
+    d.line([(90, 470), (420, 140)], fill=INK, width=44)
+    d.line([(90, 470), (420, 140)], fill="#00c0a8", width=30)
+    for t in (0.25, 0.5, 0.75):
+        x, y = 90 + 330 * t, 470 - 330 * t
+        d.ellipse((x - 30, y - 30, x + 30, y + 30), fill="#ffffff", outline=INK, width=7)
+    return im
+
+
+def garuda():
+    """Marco's phoenix flame, Garuda-style blue fire."""
+    im, d = canvas()
+    for scale, col in ((1.0, "#0b3d91"), (0.85, "#1e90ff"), (0.6, "#7fdcff"), (0.35, "#fff6a8")):
+        pts = []
+        for k in range(41):
+            t = k / 40 * 2 * math.pi
+            r = 1 - 0.55 * abs(math.sin(t * 2.5))
+            x = 256 + math.sin(t) * 190 * scale * r
+            y = 300 - math.cos(t) * 200 * scale * (1.05 if math.cos(t) > 0 else 0.75)
+            pts.append((x, y))
+        d.polygon(pts, fill=col)
+    # wings
+    for s in (-1, 1):
+        d.polygon([(256 + s * 60, 300), (256 + s * 240, 160), (256 + s * 200, 260),
+                   (256 + s * 250, 270), (256 + s * 150, 340)], fill="#1e90ff", outline="#0b3d91")
+    return im
+
+
 ICONS = {
     "fedora": fedora,
     "endeavouros": endeavouros,
@@ -336,6 +453,12 @@ ICONS = {
     "rocky": rocky,
     "kernel": kernel,
     "os": os_icon,
+    "ubuntu": ubuntu,
+    "memtest": memtest,
+    "kubuntu": kubuntu,
+    "nobara": nobara,
+    "cachyos": cachyos,
+    "garuda": garuda,
 }
 
 if __name__ == "__main__":
