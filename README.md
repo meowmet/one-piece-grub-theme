@@ -6,62 +6,99 @@
 
 A custom **One Piece themed GRUB bootloader** to spice up your system!
 
+## ✅ Compatibility
 
+| System | Status | Notes |
+|---|---|---|
+| **Fedora** | ✔ | `/boot/grub2`, BLS entries, `GRUB_TERMINAL_OUTPUT="console"` fixed automatically |
+| **Ubuntu** | ✔ | Hidden menu is switched to visible |
+| **Linux Mint** | ✔ | |
+| **Debian** | ✔ | |
+| **Arch Linux** | ✔ | Also Manjaro, EndeavourOS |
+| **openSUSE** | ✔ | `/boot/grub2` |
+| **Windows (dual-boot)** | ✔ | Detected with `os-prober`, shown with the Windows icon |
+| Kali, Zorin, elementary, CentOS, Rocky | ✔ | |
+| NixOS | ✔ | Installer prints the config snippet |
+| Pop!_OS | ✘ | Uses systemd-boot by default, not GRUB |
+
+Works with both **BIOS** and **UEFI** systems.
 
 ## 📦 Installation
 
-1. **Clone this repo**
-   ```bash
-   git clone https://github.com/meowmet/one-piece-grub-theme.git
-   cd one-piece-grub-theme
+```bash
+git clone https://github.com/meowmet/one-piece-grub-theme.git
+cd one-piece-grub-theme
+sudo ./install.sh
+```
 
+The installer detects your distribution and:
 
-2. **Copy theme folder** to GRUB themes directory:
+* copies the theme to `/boot/grub/themes/one-piece` (or `/boot/grub2/themes/one-piece` on Fedora/openSUSE),
+* sets `GRUB_THEME` in `/etc/default/grub` (a backup is saved next to it),
+* enables the graphical terminal and a visible menu,
+* enables `os-prober` so Windows shows up in the menu,
+* regenerates `grub.cfg` with `update-grub`, `grub-mkconfig` or `grub2-mkconfig`.
 
-   ```bash
-   sudo mkdir -p /boot/grub/themes
-   sudo cp -r one-piece /boot/grub/themes/
-   ```
+### Choose a background
 
-3. **Edit GRUB config**
-   Open `/etc/default/grub` with your favorite editor and add/change this line:
+```bash
+sudo ./install.sh --background zoro
+```
 
-   ```bash
-   GRUB_THEME="/boot/grub/themes/one-piece/theme.txt"
-   ```
+Available: `luffy`, `monkey_d_luffy`, `zoro`, `goingmerry`, `sea`, `wanted`.
 
-4. **Update GRUB**
-   On Debian/Ubuntu/Kali:
+### Uninstall
 
-   ```bash
-   sudo update-grub
-   ```
+```bash
+sudo ./install.sh --uninstall
+```
 
-   On Fedora/Arch:
+## 🪟 Windows dual-boot
 
-   ```bash
-   sudo grub-mkconfig -o /boot/grub/grub.cfg
-   ```
+GRUB 2.06+ disables `os-prober` by default; the installer turns it back on.
+If Windows still does not appear:
 
-5. **Reboot and enjoy** 
+1. Install os-prober:
+   * Fedora: `sudo dnf install os-prober`
+   * Ubuntu / Mint / Debian: `sudo apt install os-prober`
+   * Arch / Manjaro: `sudo pacman -S os-prober`
+   * openSUSE: `sudo zypper install os-prober`
+2. Make sure the Windows EFI partition is mounted (UEFI) or the Windows partition is readable.
+3. Disable Windows *Fast Startup* so its partition is not locked.
+4. Run `sudo ./install.sh` again.
 
----
+## 🛠️ Manual installation
 
-## 🛠️ Extra Notes
+```bash
+# Debian / Ubuntu / Mint / Arch
+sudo mkdir -p /boot/grub/themes/one-piece
+sudo cp -r theme.txt *.pf2 background.png select_*.png terminal_box_*.png icons backgrounds /boot/grub/themes/one-piece/
+# Fedora / openSUSE: use /boot/grub2/themes/one-piece instead
+```
 
-* Works with both **BIOS** and **UEFI** systems.
-* If you don’t see the theme, double-check the theme path in `/etc/default/grub`.
-* Background, fonts, and icons can be customized inside the theme folder.
+In `/etc/default/grub`:
 
----
+```bash
+GRUB_THEME="/boot/grub/themes/one-piece/theme.txt"   # /boot/grub2/... on Fedora/openSUSE
+GRUB_DISABLE_OS_PROBER=false
+#GRUB_TERMINAL_OUTPUT="console"                     # comment out on Fedora
+```
+
+Then update GRUB:
+
+* Debian / Ubuntu / Mint / Kali: `sudo update-grub`
+* Arch / EndeavourOS: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+* Fedora / openSUSE: `sudo grub2-mkconfig -o /boot/grub2/grub.cfg`
+
+On Fedora also run `sudo grub2-editenv - unset menu_auto_hide` so the menu is not hidden.
 
 ## ✨ Credits
 
-Made by **Meowmet** 
+Made by **Meowmet**
 
 > *If you have any recommendations, please mention them.* 🙌
 
 
-📝 License
+## 📝 License
 
 This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
