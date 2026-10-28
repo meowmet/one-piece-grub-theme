@@ -14,7 +14,7 @@ terminal-border: "0"
   top = 41%
   width = 40%
   height = 65%
-  item_font = "ONE PIECE Regular 16"
+  item_font = "ONE PIECE Regular 24"
   item_color = "#a68b07"
   selected_item_color = "#ad2000"
   icon_width = 64
@@ -33,7 +33,7 @@ terminal-border: "0"
     top = 93%
     width = 50%-10
     text = "Setting sail in %d seconds"
-    font = "ONE PIECE Regular 16"
+    font = "ONE PIECE Regular 24"
     color = "#f5cd07"
 }
 
