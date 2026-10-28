@@ -171,6 +171,21 @@ detect_resolution() {
 }
 RESOLUTION="$(detect_resolution)"
 
+# The themes are drawn for 1080p; on larger screens GRUB would render the
+# fixed-size fonts and icons tiny, so cap the mode at 1920x1080.
+grub_mode() {
+    local w h
+    if [[ "$RESOLUTION" =~ ^([0-9]+)x([0-9]+)$ ]]; then
+        w="${BASH_REMATCH[1]}"
+        h="${BASH_REMATCH[2]}"
+        if [ "$w" -le 1920 ] && [ "$h" -le 1080 ]; then
+            echo "${w}x${h},auto"
+            return
+        fi
+    fi
+    echo "1920x1080,auto"
+}
+
 detect_windows() {
     local esp
     for esp in /boot/efi /efi /boot; do
@@ -282,7 +297,8 @@ remove_config() {
 # The settings are plain shell, sourced by grub-mkconfig after the
 # distribution's own values, so nothing in /etc/default/grub is rewritten.
 write_config() {
-    local mode="${RESOLUTION:-1920x1080},auto" wrap="no"
+    local mode wrap="no"
+    mode="$(grub_mode)"
     remove_config
     if [ "$CONFIG_FILE" = "$GRUB_DEFAULT_CFG" ]; then wrap="yes"; fi
     {

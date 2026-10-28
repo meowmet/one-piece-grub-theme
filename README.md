@@ -52,7 +52,7 @@ Aliases also work: `merry`, `strawhat`, `default`.
 | Distribution (`/etc/os-release`) | Uses `/boot/grub2` + `grub2-mkconfig` on Fedora/openSUSE, `/boot/grub` + `update-grub`/`grub-mkconfig` elsewhere |
 | `/etc/default/grub.d` support (Debian, Ubuntu, Mint, Kali) | Writes its settings to `/etc/default/grub.d/zz-one-piece.cfg`, read last, so distro themes like Kali's cannot override it |
 | Other distros (Fedora, Arch, openSUSE) | Appends one marked block to `/etc/default/grub` – existing lines are never edited |
-| Screen resolution (`/sys/class/drm`) | Sets `GRUB_GFXMODE` to your native resolution, unless you already set one |
+| Screen resolution (`/sys/class/drm`) | Sets `GRUB_GFXMODE` to your native resolution (capped at 1920x1080 so text stays readable on 4K), unless you already set one |
 | Windows (ESP or NTFS partition) | Enables os-prober and offers to install it with `dnf`/`apt`/`pacman`/`zypper` |
 | Fedora's console terminal and hidden menu | Switches to the graphical terminal, clears `menu_auto_hide` |
 | Ubuntu's hidden menu / timeout 0 | Shows the menu with a 10 second countdown |
